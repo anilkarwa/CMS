@@ -1,24 +1,23 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import type {Node} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
-import {TextInput} from './UI/index';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import { TextInput } from './UI/index';
+import LoginScreen from './components/login/view/LoginScreen';
+import StackNav from './navigation/StackNav';
+import { NavigationContainer } from '@react-navigation/native';
+import DrawerNav from './navigation/DrawerNav';
 
-const App: () => Node = () => {
+const App = () => {
 
   return (
-    <SafeAreaView>
+    <>
       <StatusBar barStyle={'light-content'} />
-      <View style={styles.container}>
-        <TextInput placeholder="Enter text" label="Email" />
-      </View>
-    </SafeAreaView>
+      <NavigationContainer>
+        <StackNav />
+        {/* <DrawerNav /> */}
+      </NavigationContainer>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10,
-  },
-});
 
 export default App;

@@ -1,0 +1,22 @@
+export default userData = [
+    {
+        token:'efgdgskjhhxbshj1',
+        username:'mak@123.com',
+        password:'123456'
+    },
+    {
+        token:'efgdgskjhhxbshj1',
+        username:'jack@123.com',
+        password:'123456'
+    },
+    {
+        token:'efgdgskjhhxbshj1',
+        username:'tom@123.com',
+        password:'123456'
+    },
+    {
+        token:'efgdgskjhhxbshj1',
+        username:'harry@123.com',
+        password:'123456'
+    }
+]
