@@ -39,11 +39,15 @@ const CanteenUsagesScreen = () => {
                         <Text style={styles.txt1}>SV009878</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} onPress={()=>navigation.navigate('MenuUsageReport')}>
+                <TouchableOpacity style={styles.touchableStyle} 
+                // onPress={()=>navigation.navigate('MenuUsageReport')}
+                >
                     <Text style={styles.txt2}>COFEE</Text>
                 </TouchableOpacity>
                 <Text style={styles.txt3}>Total:</Text>
-                <TouchableOpacity style={styles.touchableStyle} onPress={()=>navigation.navigate('MenuListScreen')}>
+                <TouchableOpacity style={styles.touchableStyle} 
+                // onPress={()=>navigation.navigate('MenuListScreen')}
+                >
                     <Text style={styles.txt2}>76</Text>
                 </TouchableOpacity>
             </View>

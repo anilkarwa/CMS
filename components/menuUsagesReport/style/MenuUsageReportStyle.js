@@ -36,6 +36,81 @@ export default StyleSheet.create({
     calendarTxt:{
         color:'black',
         fontSize:Size.SIZE_15,
-        paddingRight:Spacing.SCALE_10
+        paddingRight:Spacing.SCALE_10,
+        fontWeight:'500'
+    },
+    calendarTxtContainer:{ 
+        display: 'flex', 
+        flexDirection: 'row', 
+        paddingVertical: Spacing.SCALE_20, 
+        justifyContent: 'center' ,
+        alignItems:'center'
+    },
+    touchableHelightStyle:{ 
+        width: '55%', 
+        borderColor: '#87b0c0', 
+        borderWidth: 1, 
+        height: Size.SIZE_40, 
+        flexDirection: 'row', 
+        justifyContent: 'space-between' 
+    },
+    img:{ 
+        width: 20, 
+        height: 20, 
+        tintColor: 'black', 
+        marginTop: 7, 
+        marginRight: 5 
+    },
+    checkboxContainer:{ 
+        flexDirection: 'row', 
+        paddingLeft: Spacing.SCALE_10 
+    },
+    tableHeaderContainer:{
+        justifyContent:'center',
+        alignItems:'center',
+        borderColor:'#ddd',
+        borderWidth:1,
+        marginHorizontal:Spacing.SCALE_18,
+        flexDirection:'row',
+        marginTop:Spacing.SCALE_20,
+        width:'90%'
+    },
+    rowContainer:{ 
+        borderColor:'#ddd',
+        borderRightWidth:1,
+        width:'30%' 
+    },
+    rowContainer1:{ 
+        borderColor:'#ddd',
+        width:'30%' 
+    },
+    rowWrapper:{
+        fontSize:Typography.FONT_SIZE_16,
+        textAlign:'center',
+        fontWeight:'500',
+        color:'#196d87'
+    },
+    rowDataHeader:{ 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderColor: '#ddd', 
+        borderWidth: 1, 
+        marginHorizontal: Spacing.SCALE_18,
+        flexDirection:'row' 
+    },
+    rowDataContent:{ 
+        borderColor: '#ddd', 
+        borderRightWidth: 1, 
+        width: '30%' 
+    },
+    rowDataContent1:{ 
+        borderColor: '#ddd', 
+        width: '30%' 
+    },
+    rowDataText:{ 
+        fontSize: Typography.FONT_SIZE_16, 
+        textAlign: 'center', 
+        fontWeight: '500', 
+        color: 'black' 
     }
 })

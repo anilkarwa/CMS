@@ -14,7 +14,6 @@ const App = () => {
       <StatusBar barStyle={'light-content'} />
       <NavigationContainer>
         <StackNav />
-        {/* <DrawerNav /> */}
       </NavigationContainer>
     </>
   );

@@ -23,6 +23,7 @@ const LoginScreen = () => {
           setPassword('');
           setUserName('');
           navigation.push('Home');
+          // navigation.push('CanteenUsagesScreen');
           return;
         }
       });
