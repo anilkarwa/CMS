@@ -1,8 +1,108 @@
-import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, ScrollView, Text, View } from 'react-native';
+import CheckBox from 'react-native-check-box'
+import SelectMultiple from 'react-native-select-multiple'
 import styles from '../style/MenuListStyle'
 
 const MenuListScreen = () => {
+    const handleCheck = (index) => {
+        // alert(id)
+        breakFast[index].checked = !breakFast[index].checked
+    }
+    const breakFast = [
+        {
+            id: 1,
+            item: 'Coffee',
+            checked:false
+        },
+        {
+            id: 2,
+            item: 'idly',
+            checked:false
+        },
+        {
+            id: 3,
+            item: 'Dosa',
+            checked:false
+        },
+        {
+            id: 4,
+            item: 'Vada',
+            checked:false
+        },
+        {
+            id: 5,
+            item: 'Bun',
+            checked:false
+        },
+        {
+            id: 6,
+            item: 'Bread',
+            checked:false
+        },
+    ]
+    const lunch = [
+        {
+            id: 7,
+            item: 'Coffee',
+        },
+        {
+            id: 8,
+            item: 'Lunch',
+        },
+        {
+            id: 9,
+            item: 'Spl. Lunch',
+        },
+        {
+            id: 10,
+            item: 'North Meals',
+        }
+    ]
+    const snacks = [
+        {
+            id: 11,
+            item: 'coffee',
+        },
+        {
+            id: 12,
+            item: 'Bonda',
+        },
+        {
+            id: 13,
+            item: 'Biscuits',
+        },
+        {
+            id: 14,
+            item: 'Soup',
+        },
+    ]
+    const night = [
+        {
+            id: 15,
+            item: 'coffee'
+        },
+        {
+            id: 16,
+            item: 'Meals'
+        },
+        {
+            id: 17,
+            item: 'Spl.lunch'
+        },
+        {
+            id: 18,
+            item: 'North Meals'
+        },
+        {
+            id: 19,
+            item: 'Extra Chapathi'
+        },
+        {
+            id: 20,
+            item: 'Extra Pav'
+        },
+    ]
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -16,96 +116,68 @@ const MenuListScreen = () => {
                 </View>
                 <View style={styles.categoryWrapper}>
                     <Text style={styles.categoryWrapperHeader}>Morning Break fast</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Coffee/Tea/Milk</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Idly</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Dosa</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Vada</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Bun</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Bread</Text>
-                    </View>
+                    <FlatList
+                        data={breakFast}
+                        renderItem={({ item, index }) => (
+                            <View style={{ flexDirection: 'row' }}>
+                                <CheckBox
+                                    onClick={() => handleCheck(index)}
+                                    isChecked={item.checked}
+                                    checkedCheckBoxColor="#196d87"
+                                />
+                                <Text style={styles.categoryListStyle}>{item.item}</Text>
+                            </View>
+                        )}
+                    />
                 </View>
-                <View style={styles.categoryWrapper}>
+                {/* <View style={styles.categoryWrapper}>
                     <Text style={styles.categoryWrapperHeader}>Afternoon Lunch</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Coffee/Tea/Milk</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Lunch</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Spl. Lunch</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>North Meals</Text>
-                    </View>
+                    <FlatList
+                        data={lunch}
+                        renderItem={({ item, id }) => (
+                            <View style={{ flexDirection: 'row' }}>
+                                <CheckBox
+                                    onClick={() => handleCheck(item.id)}
+                                    isChecked={checked}
+                                    checkedCheckBoxColor="#196d87"
+                                />
+                                <Text style={styles.categoryListStyle}>{item.item}</Text>
+                            </View>
+                        )}
+                    />
                 </View>
                 <View style={styles.categoryWrapper}>
                     <Text style={styles.categoryWrapperHeader}>Evening Snacks</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Coffee/Tea/Milk</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Bonda</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Biscuits</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Soup</Text>
-                    </View>
+                    <FlatList
+                        data={snacks}
+                        renderItem={({ item, id }) => (
+                            <View style={{ flexDirection: 'row' }}>
+                                <CheckBox
+                                    onClick={() => handleCheck(item.id)}
+                                    isChecked={checked}
+                                    checkedCheckBoxColor="#196d87"
+                                />
+                                <Text style={styles.categoryListStyle}>{item.item}</Text>
+                            </View>
+                        )}
+                    />
                 </View>
                 <View style={styles.categoryWrapper}>
                     <Text style={styles.categoryWrapperHeader}>Night</Text>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Coffee/Tea/Milk</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Meals</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Spl. Lunch</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>North Meals</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Extra Chapathi</Text>
-                    </View>
-                    <View style={{flexDirection:'row'}}>
-                        <Text style={styles.categoryBulletStyle}>{'\u2022'}</Text>
-                        <Text style={styles.categoryListStyle}>Extra Pav</Text>
-                    </View>
-                </View>
+                    <FlatList
+                        data={night}
+                        renderItem={({ item, id }) => (
+                            <View style={{ flexDirection: 'row' }}>
+                                <CheckBox
+                                    onClick={() => handleCheck(item.id)}
+                                    isChecked={checked}
+                                    checkedCheckBoxColor="#196d87"
+                                />
+                                <Text style={styles.categoryListStyle}>{item.item}</Text>
+                            </View>
+                        )}
+                    />
+                </View> */}
             </ScrollView>
         </View>
     )

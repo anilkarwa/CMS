@@ -27,6 +27,57 @@ const MenuUsageReport = () => {
             quality: 2
         }
     ]
+    const data1 = [
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        {
+            date: '12/10/2022',
+            cardId: 'SV001122',
+            name: 'Praveen Kumar',
+            empCode: '22562',
+            item: 'idly',
+            quality: 2
+        },
+        
+    ]
 
     const handleCheck = () => {
         setChecked(!checked)
@@ -34,13 +85,22 @@ const MenuUsageReport = () => {
     }
     const item = ({ item }) => {
         return <View style={styles.rowDataHeader}>
-            <View style={styles.rowDataContent}>
+            <View style={styles.rowDataContent2}>
                 <Text style={styles.rowDataText}>{item.date}</Text>
             </View>
-            <View style={styles.rowDataContent}>
-                <Text style={styles.rowDataText}>{item.itemName}</Text>
+            <View style={styles.rowDataContent2}>
+                <Text style={styles.rowDataText}>{item.cardId}</Text>
             </View>
-            <View style={styles.rowDataContent1}>
+            <View style={styles.rowDataContent2}>
+                <Text style={styles.rowDataText}>{item.name}</Text>
+            </View>
+            <View style={styles.rowDataContent2}>
+                <Text style={styles.rowDataText}>{item.empCode}</Text>
+            </View>
+            <View style={styles.rowDataContent2}>
+                <Text style={styles.rowDataText}>{item.item}</Text>
+            </View>
+            <View style={styles.rowDataContent3}>
                 <Text style={styles.rowDataText}>{item.quality}</Text>
             </View>
         </View>
@@ -52,6 +112,7 @@ const MenuUsageReport = () => {
                     Company Name
                 </Text>
             </View>
+            <ScrollView>
             <View style={styles.body}>
                 <View style={styles.bodyHeader}>
                     <Text style={styles.bodyHeaderText}>MENU USAGE REPORT</Text>
@@ -124,7 +185,7 @@ const MenuUsageReport = () => {
                 </View>
                 {
                     data?.map((data) => {
-                        return <View style={styles.rowDataHeader}>
+                        return <View style={styles.rowDataHeader1}>
                             <View style={styles.rowDataContent}>
                                 <Text style={styles.rowDataText}>{data.date}</Text>
                             </View>
@@ -137,32 +198,37 @@ const MenuUsageReport = () => {
                         </View>
                     })
                 }
-                <View style={styles.tableHeaderContainer}>
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.rowWrapper}>Date</Text>
+                <ScrollView horizontal={true}>
+                    <View>
+                        <View style={styles.tableHeaderContainer1}>
+                            <View style={styles.rowContainer2}>
+                                <Text style={styles.rowWrapper1}>Date</Text>
+                            </View>
+                            <View style={styles.rowContainer2}>
+                                <Text style={styles.rowWrapper1}>Card ID</Text>
+                            </View>
+                            <View style={styles.rowContainer2}>
+                                <Text style={styles.rowWrapper1}>Name</Text>
+                            </View>
+                            <View style={styles.rowContainer2}>
+                                <Text style={styles.rowWrapper1}>Emp Code</Text>
+                            </View>
+                            <View style={styles.rowContainer2}>
+                                <Text style={styles.rowWrapper1}>Item</Text>
+                            </View>
+                            <View style={styles.rowContainer3}>
+                                <Text style={styles.rowWrapper1}>Quantity</Text>
+                            </View>
+                        </View>
+                        <FlatList
+                            data={data1}
+                            renderItem={item}
+                        // horizontal={true}
+                        />
                     </View>
-                    <View style={styles.rowContainer}>
-                        <Text style={styles.rowWrapper}>Card ID</Text>
-                    </View>
-                    <View style={styles.rowContainer1}>
-                        <Text style={styles.rowWrapper}>Name</Text>
-                    </View>
-                    {/* <View style={styles.rowContainer1}>
-                        <Text style={styles.rowWrapper}>Emp Code</Text>
-                    </View>
-                    <View style={styles.rowContainer1}>
-                        <Text style={styles.rowWrapper}>Item</Text>
-                    </View>
-                    <View style={styles.rowContainer1}>
-                        <Text style={styles.rowWrapper}>Quantity</Text>
-                    </View> */}
-                </View>
-                <FlatList
-                    data={data}
-                    renderItem={item}
-                // horizontal={true}
-                />
+                </ScrollView>
             </View>
+            </ScrollView>
         </View>
     )
 }

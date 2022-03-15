@@ -75,6 +75,15 @@ export default StyleSheet.create({
         marginTop:Spacing.SCALE_20,
         width:'90%'
     },
+    tableHeaderContainer1:{
+        // justifyContent:'center',
+        // alignItems:'center',
+        borderColor:'#ddd',
+        borderWidth:1,
+        marginHorizontal:Spacing.SCALE_18,
+        flexDirection:'row',
+        marginTop:Spacing.SCALE_20,
+    },
     rowContainer:{ 
         borderColor:'#ddd',
         borderRightWidth:1,
@@ -82,7 +91,18 @@ export default StyleSheet.create({
     },
     rowContainer1:{ 
         borderColor:'#ddd',
-        width:'30%' 
+        width:'30%' ,
+        
+    },
+    rowContainer2:{ 
+        borderColor:'#ddd',
+        borderRightWidth:1,
+        width:Size.SIZE_80 
+    },
+    rowContainer3:{ 
+        borderColor:'#ddd',
+        width:Size.SIZE_80 ,
+        borderRightWidth:1
     },
     rowWrapper:{
         fontSize:Typography.FONT_SIZE_16,
@@ -90,7 +110,22 @@ export default StyleSheet.create({
         fontWeight:'500',
         color:'#196d87'
     },
+    rowWrapper1:{
+        fontSize:Typography.FONT_SIZE_16,
+        textAlign:'center',
+        fontWeight:'500',
+        color:'#196d87',
+        padding:Spacing.SCALE_10
+    },
     rowDataHeader:{ 
+        // justifyContent: 'center', 
+        // alignItems: 'center', 
+        borderColor: '#ddd', 
+        borderWidth: 1, 
+        marginHorizontal: Spacing.SCALE_18,
+        flexDirection:'row' 
+    },
+    rowDataHeader1:{ 
         justifyContent: 'center', 
         alignItems: 'center', 
         borderColor: '#ddd', 
@@ -107,10 +142,21 @@ export default StyleSheet.create({
         borderColor: '#ddd', 
         width: '30%' 
     },
+    rowDataContent2:{ 
+        borderColor: '#ddd', 
+        borderRightWidth: 1, 
+        width: Size.SIZE_80 
+    },
+    rowDataContent3:{ 
+        borderColor: '#ddd', 
+        width: Size.SIZE_80,
+        borderRightWidth: 1, 
+    },
     rowDataText:{ 
         fontSize: Typography.FONT_SIZE_16, 
         textAlign: 'center', 
         fontWeight: '500', 
-        color: 'black' 
+        color: 'black',
+        padding:Spacing.SCALE_5
     }
 })

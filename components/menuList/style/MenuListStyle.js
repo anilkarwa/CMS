@@ -20,7 +20,7 @@ export default StyleSheet.create({
     },
     body:{
         paddingVertical:Spacing.SCALE_10,
-        marginTop:Spacing.SCALE_30
+        padingTop:Spacing.SCALE_30
     },
     bodyHeaderText:{
         fontSize:Typography.FONT_SIZE_30,

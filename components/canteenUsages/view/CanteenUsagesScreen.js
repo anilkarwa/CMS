@@ -26,26 +26,26 @@ const CanteenUsagesScreen = () => {
                     <TextInput placeholder="Please enter Employee Card" label="Employee" outlineColor="#87b0c0" autoFocus={true} />
                 </View>
                 <View style={styles.detailsStyle}>
-                    <View style={{flexDirection:'row',paddingBottom:Spacing.SCALE_20}}>
+                    <View style={{ flexDirection: 'row', paddingBottom: Spacing.SCALE_20 }}>
                         <Text style={styles.txt}>Code:</Text>
                         <Text style={styles.txt1}>SV009878</Text>
                     </View>
-                    <View style={{flexDirection:'row',paddingBottom:Spacing.SCALE_20}}>
+                    <View style={{ flexDirection: 'row', paddingBottom: Spacing.SCALE_20 }}>
                         <Text style={styles.txt}>Name:</Text>
                         <Text style={styles.txt1}>R Rajesh Kumar</Text>
                     </View>
-                    <View style={{flexDirection:'row',paddingBottom:Spacing.SCALE_20}}>
+                    <View style={{ flexDirection: 'row', paddingBottom: Spacing.SCALE_20 }}>
                         <Text style={styles.txt}>Photo:</Text>
                         <Text style={styles.txt1}>SV009878</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.touchableStyle} 
+                <TouchableOpacity style={styles.touchableStyle}
                 // onPress={()=>navigation.navigate('MenuUsageReport')}
                 >
                     <Text style={styles.txt2}>COFEE</Text>
                 </TouchableOpacity>
                 <Text style={styles.txt3}>Total:</Text>
-                <TouchableOpacity style={styles.touchableStyle} 
+                <TouchableOpacity style={styles.touchableStyle}
                 // onPress={()=>navigation.navigate('MenuListScreen')}
                 >
                     <Text style={styles.txt2}>76</Text>
