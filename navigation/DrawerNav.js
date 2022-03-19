@@ -9,10 +9,6 @@ const Drawer = createDrawerNavigator();
 const DrawerNav = () => {
   return (
     <Drawer.Navigator initialRouteName="CanteenUsagesScreen">
-      {/* <Drawer.Screen
-        name="CanteenUsagesScreen"
-        component={CanteenUsagesScreen}
-      /> */}
       <Drawer.Screen
         name="CanteenUsagesScreen"
         component={CanteenUsagesScreen}

@@ -16,21 +16,6 @@ function StackNav() {
         component={LoginScreen}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="CanteenUsagesScreen"
-        component={CanteenUsagesScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="MenuListScreen"
-        component={MenuListScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="MenuUsageReport"
-        component={MenuUsageReport}
-        options={{headerShown: false}}
-      /> */}
       <Stack.Screen
         name="Home"
         component={DrawerNav}

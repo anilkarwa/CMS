@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Alert} from 'react-native';
 import {Button} from 'react-native-paper';
 import {TextInput} from '../../../UI';
 import userData from '../../../utility/responsiveUi/constants';
@@ -11,30 +11,27 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  console.log('userData====>>>>>', userData);
   const btnHandler = () => {
-    if (userName == '' || password == '') {
-      alert('please fill the required fields');
+    if (userName === '' || password === '') {
+      Alert('Please fill the required fields');
       return;
     }
     if (userName) {
       userData.map(item => {
-        if (item.username == userName && item.password == password) {
+        if (item.username === userName && item.password === password) {
           setPassword('');
           setUserName('');
           navigation.push('Home');
-          // navigation.push('CanteenUsagesScreen');
           return;
         }
       });
     }
-    // navigation.navigate('MenuUsageReport')
   };
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.headerText}>Company Name</Text>
-      </View>
+      </View> */}
       <View style={styles.body}>
         <Text style={styles.bodyHeaderText}>LOGIN</Text>
         <View>
