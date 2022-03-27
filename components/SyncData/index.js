@@ -20,6 +20,9 @@ function SyncDataModal(props) {
 
   useEffect(() => {
     if (props.open) {
+      setTranscationStatus('pending');
+      setEmployeeStatus('pending');
+      setMenuStatus('pending');
       startSyncProcess();
     }
   }, [props.open]);

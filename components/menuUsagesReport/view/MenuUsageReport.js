@@ -34,7 +34,7 @@ const MenuUsageReport = ({navigation}) => {
       if (trns && !trns.status) {
         Alert.alert('Error', 'Could not load transcations');
       } else {
-        setLocalTranscations(trns.data);
+        setLocalTranscations([...trns.data]);
       }
     } catch (ex) {
       Alert.alert('Error', 'Could not load transcations');
