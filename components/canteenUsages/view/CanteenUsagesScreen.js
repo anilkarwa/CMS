@@ -1,21 +1,98 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import {TextInput} from '../../../UI';
 import {Spacing} from '../../../utility/responsiveUi';
 import styles from '../style/CanteenUsagesStyle';
+import {getEmpByCardNo, addNewTranscation} from '../../../Realm/dataSync';
+import debounce from 'lodash.debounce';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CanteenUsagesScreen = () => {
+const CanteenUsagesScreen = ({navigation}) => {
+  const [emp, setEmp] = useState({});
+  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [orderCount, setOrderCount] = useState(0);
+  const [selectedMenu, setSelectedMenu] = useState([]);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      showSelectedMenu();
+      setOrderCount(0);
+      setSearch('');
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  React.useEffect(() => {
+    if (searchText) {
+      searchEmp(searchText);
+    }
+  }, [searchText]);
+
+  const searchEmp = async val => {
+    try {
+      let empp = await getEmpByCardNo(val);
+      if (!selectedMenu.length) {
+        Alert.alert('Errir', 'Please select menu in menu settings');
+        return false;
+      }
+      if (empp && !empp.status) {
+        Alert.alert('Error', 'Employee not found');
+      } else {
+        if (emp?.empId === empp.data[0].empId) {
+          setOrderCount(orderCount + 1);
+        } else {
+          setOrderCount(1);
+        }
+        setEmp(empp.data[0]);
+        for (let menu of selectedMenu) {
+          let trns = {
+            empId: empp.data[0].empId,
+            empName: empp.data[0].empName,
+            empCardNo: empp.data[0].empCardNo,
+            menuId: menu.menuId,
+            itemName: menu.menuName,
+          };
+          await addNewTranscation(trns);
+          setSearch('');
+          setSearchText('');
+        }
+      }
+    } catch (ex) {
+      console.log('ex=>', ex);
+      Alert.alert('Error', 'Employee not found');
+    }
+  };
+
+  const showSelectedMenu = async () => {
+    let selectedMenuList = await AsyncStorage.getItem('@SELECTEDMENULIST');
+    if (selectedMenuList) {
+      selectedMenuList = JSON.parse(selectedMenuList);
+      setSelectedMenu([...selectedMenuList]);
+      let menu = '';
+      for (let [index, val] of selectedMenuList.entries()) {
+        menu += val.menuName;
+        if (index < selectedMenuList.length - 1) {
+          menu += ', ';
+        }
+      }
+      Alert.alert('Menu', menu);
+    } else {
+      setSelectedMenu([]);
+      Alert.alert('Errir', 'Please select menu in menu settings');
+    }
+  };
+
+  const debounceData = React.useMemo(() => debounce(setSearchText, 1000), []);
+
   return (
     <View style={styles.container}>
       {/* <View style={styles.header}>
         <Text style={styles.headerText}>Company Name</Text>
       </View> */}
       <View style={styles.body}>
-        <View style={styles.bodyHeader}>
-          <Text style={styles.bodyHeaderText}>Canteen Usage</Text>
-        </View>
         <View style={styles.txtWrapper}>
-          <Text style={styles.txt}>Scan / Tap / Employee Card :</Text>
+          <Text style={styles.txt}>Scan / Tap / Employee Card</Text>
         </View>
         <View style={styles.inputWrapper}>
           <TextInput
@@ -23,35 +100,52 @@ const CanteenUsagesScreen = () => {
             label="Employee"
             outlineColor="#87b0c0"
             autoFocus={true}
+            value={search}
+            onChangeText={text => {
+              debounceData(text);
+              setSearch(text);
+            }}
           />
         </View>
         <View style={styles.detailsStyle}>
-          <View style={{flexDirection: 'row', paddingBottom: Spacing.SCALE_20}}>
-            <Text style={styles.txt}>Code:</Text>
-            <Text style={styles.txt1}>SV009878</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'baseline',
+              paddingBottom: Spacing.SCALE_20,
+            }}>
+            <Text style={styles.txt}>
+              Code: <Text style={styles.txt1}>{emp.empCode}</Text>
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', paddingBottom: Spacing.SCALE_20}}>
-            <Text style={styles.txt}>Name:</Text>
-            <Text style={styles.txt1}>R Rajesh Kumar</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'baseline',
+              paddingBottom: Spacing.SCALE_20,
+            }}>
+            <Text numberOfLines={1} style={styles.txt}>
+              Name: <Text style={styles.txt1}>{emp.empName}</Text>
+            </Text>
           </View>
           <View style={{flexDirection: 'row', paddingBottom: Spacing.SCALE_20}}>
             <Text style={styles.txt}>Photo:</Text>
-            <Text style={styles.txt1}>SV009878</Text>
+            <Text style={styles.txt1}></Text>
           </View>
         </View>
         <TouchableOpacity
           style={styles.touchableStyle}
           // onPress={()=>navigation.navigate('MenuUsageReport')}
         >
-          <Text style={styles.txt2}>COFEE</Text>
+          <Text style={styles.txt2}>{orderCount}</Text>
         </TouchableOpacity>
-        <Text style={styles.txt3}>Total:</Text>
+        {/* <Text style={styles.txt3}>Total:</Text>
         <TouchableOpacity
           style={styles.touchableStyle}
           // onPress={()=>navigation.navigate('MenuListScreen')}
         >
           <Text style={styles.txt2}>76</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

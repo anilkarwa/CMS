@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   body: {
     paddingVertical: Spacing.SCALE_10,
-    marginTop: Spacing.SCALE_30,
+    marginTop: Spacing.SCALE_10,
   },
   bodyHeaderText: {
     fontSize: Typography.FONT_SIZE_30,
@@ -104,13 +104,13 @@ export default StyleSheet.create({
     borderRightWidth: 1,
   },
   rowWrapper: {
-    fontSize: Typography.FONT_SIZE_16,
+    fontSize: Typography.FONT_SIZE_12,
     textAlign: 'center',
     fontWeight: '500',
     color: '#196d87',
   },
   rowWrapper1: {
-    fontSize: Typography.FONT_SIZE_16,
+    fontSize: Typography.FONT_SIZE_12,
     textAlign: 'center',
     fontWeight: '500',
     color: '#196d87',
@@ -152,7 +152,7 @@ export default StyleSheet.create({
     borderRightWidth: 1,
   },
   rowDataText: {
-    fontSize: Typography.FONT_SIZE_16,
+    fontSize: Typography.FONT_SIZE_10,
     textAlign: 'center',
     fontWeight: '500',
     color: 'black',

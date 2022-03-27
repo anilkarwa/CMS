@@ -1,74 +1,90 @@
-import React, {useState} from 'react';
-import {FlatList, ScrollView, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {FlatList, Text, View, Alert} from 'react-native';
 import CheckBox from 'react-native-check-box';
 import styles from '../style/MenuListStyle';
+import {getMenuList} from '../../../Realm/dataSync';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MenuListScreen = () => {
+const MenuListScreen = ({navigation}) => {
+  const [menuList, setMenuList] = useState([]);
 
-  const handleCheck = index => {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getMenuSettings();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const handleCheck = async index => {
     menuList[index].checked = !menuList[index].checked;
     setMenuList([...menuList]);
+    await AsyncStorage.setItem(
+      '@SELECTEDMENULIST',
+      menuList.length ? JSON.stringify(menuList.filter(e => e.checked)) : null,
+    );
   };
 
-  const [menuList, setMenuList] = useState([
-    {
-      id: 1,
-      item: 'Coffee',
-      checked: false,
-    },
-    {
-      id: 2,
-      item: 'idly',
-      checked: false,
-    },
-    {
-      id: 3,
-      item: 'Dosa',
-      checked: false,
-    },
-    {
-      id: 4,
-      item: 'Vada',
-      checked: false,
-    },
-    {
-      id: 5,
-      item: 'Bun',
-      checked: false,
-    },
-    {
-      id: 6,
-      item: 'Bread',
-      checked: false,
-    },
-  ]);
+  const getMenuSettings = async () => {
+    try {
+      let selectedMenuList = await AsyncStorage.getItem('@SELECTEDMENULIST');
+      if (selectedMenuList) {
+        selectedMenuList = JSON.parse(selectedMenuList);
+      }
+      let menu = await getMenuList();
+      if (menu && !menu.status) {
+        setMenuList([]);
+        Alert.alert('Error', 'Menu List not found');
+      } else {
+        let notFound = false;
+        let menuItems = menu.data.map(e => {
+          let index = selectedMenuList?.findIndex(m => m.menuId === e.menuId);
+          if (index < 0) {
+            notFound = true;
+          }
+          return {
+            ...e,
+            checked: index > -1,
+          };
+        });
+        if (notFound) {
+          await AsyncStorage.removeItem('@SELECTEDMENULIST');
+          setMenuList([...menu.data]);
+        } else {
+          setMenuList([...menuItems]);
+        }
+      }
+    } catch (ex) {
+      console.log('ex=>', ex);
+      Alert.alert('Error', 'Menu List not found');
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Company Name</Text>
+      <View style={styles.categoryWrapper}>
+        <Text style={styles.categoryWrapperHeader}>Menu</Text>
+        <FlatList
+          data={menuList}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => (
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                alignItems: 'center',
+              }}>
+              <CheckBox
+                onClick={() => handleCheck(index)}
+                isChecked={item.checked}
+                checkedCheckBoxColor="#196d87"
+              />
+              <Text style={styles.categoryListStyle}>{item.menuName}</Text>
+            </View>
+          )}
+        />
       </View>
-      <ScrollView style={styles.body}>
-        <View style={styles.bodyHeader}>
-          <Text style={styles.bodyHeaderText}>Menu List</Text>
-        </View>
-        <View style={styles.categoryWrapper}>
-          <Text style={styles.categoryWrapperHeader}>Morning Break fast</Text>
-          <FlatList
-            data={menuList}
-            renderItem={({item, index}) => (
-              <View style={{flexDirection: 'row'}}>
-                <CheckBox
-                  onClick={() => handleCheck(index)}
-                  isChecked={item.checked}
-                  checkedCheckBoxColor="#196d87"
-                />
-                <Text style={styles.categoryListStyle}>{item.item}</Text>
-              </View>
-            )}
-          />
-        </View>
-      </ScrollView>
     </View>
   );
 };

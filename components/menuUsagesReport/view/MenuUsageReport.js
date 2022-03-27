@@ -1,92 +1,85 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   FlatList,
   Image,
   Pressable,
   ScrollView,
   Text,
-  TouchableHighlight,
   View,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import {useState} from 'react/cjs/react.development';
-import CheckBox from 'react-native-check-box';
 import styles from '../style/MenuUsageReportStyle';
-import {Size, Spacing, Typography} from '../../../utility/responsiveUi';
+import {getLocalTranscations} from '../../../Realm/dataSync';
+import moment from 'moment';
+import {sortBy} from 'lodash';
 
-const MenuUsageReport = () => {
+const MenuUsageReport = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [checked1, setChecked1] = useState(true);
+  const [localTranscations, setLocalTranscations] = useState([]);
+  const [filteredTranscations, setFilteredTranscations] = useState([]);
 
-  const data = [
-    {
-      date: '12/10/2022',
-      itemName: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      itemName: 'sandwitch',
-      quality: 2,
-    },
-  ];
-  const data1 = [
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-    {
-      date: '12/10/2022',
-      cardId: 'SV001122',
-      name: 'Praveen Kumar',
-      empCode: '22562',
-      item: 'idly',
-      quality: 2,
-    },
-  ];
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadTranscations();
+    });
 
-  const handleCheck = () => {
-    setChecked(!checked);
-    setChecked1(!checked1);
+    return unsubscribe;
+  }, [navigation]);
+
+  const loadTranscations = async () => {
+    try {
+      let trns = await getLocalTranscations();
+      if (trns && !trns.status) {
+        Alert.alert('Error', 'Could not load transcations');
+      } else {
+        setLocalTranscations(trns.data);
+      }
+    } catch (ex) {
+      Alert.alert('Error', 'Could not load transcations');
+    }
   };
+
+  const filterTranscations = (datee = null) => {
+    try {
+      let trns = [];
+      let localTranscationsTemp = datee
+        ? localTranscations.filter(e => moment(datee).isSame(e.scanDateTime, 'day'))
+        : localTranscations;
+      for (let localTrn of localTranscationsTemp) {
+        let index = trns.findIndex(
+          e =>
+            e.empId === localTrn.empId &&
+            e.menuId === localTrn.menuId &&
+            moment(e.scanDateTime).isSame(localTrn.scanDateTime, 'day'));
+        if (index > -1) {
+          trns[index].quality += 1;
+        } else {
+          let trn = {
+            date: moment(localTrn.scanDateTime).format('DD/MM/YYYY'),
+            cardId: localTrn.empCardNo,
+            name: localTrn.empName,
+            item: localTrn.itemName,
+            quality: 1,
+            ...localTrn,
+          };
+          trns.push(trn);
+        }
+      }
+      trns = sortBy(trns, 'date');
+      setFilteredTranscations([...trns]);
+    } catch (ex) {
+      console.log('err->', ex);
+    }
+  };
+
+  useEffect(() => {
+    if (localTranscations.length) {
+      filterTranscations();
+    }
+  }, [localTranscations]);
+
   const item = ({item}) => {
     return (
       <View style={styles.rowDataHeader}>
@@ -98,9 +91,6 @@ const MenuUsageReport = () => {
         </View>
         <View style={styles.rowDataContent2}>
           <Text style={styles.rowDataText}>{item.name}</Text>
-        </View>
-        <View style={styles.rowDataContent2}>
-          <Text style={styles.rowDataText}>{item.empCode}</Text>
         </View>
         <View style={styles.rowDataContent2}>
           <Text style={styles.rowDataText}>{item.item}</Text>
@@ -118,9 +108,6 @@ const MenuUsageReport = () => {
       </View> */}
       <ScrollView>
         <View style={styles.body}>
-          <View style={styles.bodyHeader}>
-            <Text style={styles.bodyHeaderText}>MENU USAGE REPORT</Text>
-          </View>
           <View style={styles.calendarTxtContainer}>
             <Text style={styles.calendarTxt}>For The Day</Text>
             <Pressable
@@ -147,6 +134,7 @@ const MenuUsageReport = () => {
               onConfirm={date => {
                 setOpen(false);
                 setDate(date);
+                filterTranscations(date);
               }}
               onDateChange={setDate}
               onCancel={() => {
@@ -154,7 +142,7 @@ const MenuUsageReport = () => {
               }}
             />
           </View>
-          <View style={styles.checkboxContainer}>
+          {/* <View style={styles.checkboxContainer}>
             <CheckBox
               style={{flex: 1, padding: 10}}
               onClick={handleCheck}
@@ -171,8 +159,8 @@ const MenuUsageReport = () => {
               checkedCheckBoxColor="#196d87"
               rightTextStyle={{color: 'black', fontWeight: '600', fontSize: 16}}
             />
-          </View>
-          <TouchableHighlight
+          </View> */}
+          {/* <TouchableHighlight
             style={{
               width: Size.SIZE_80,
               height: Size.SIZE_40,
@@ -184,7 +172,6 @@ const MenuUsageReport = () => {
               borderRadius: 4,
             }}>
             <>
-              {/* <Icon name="eye" size={30} color="white" /> */}
               <Text
                 style={{
                   color: 'white',
@@ -195,8 +182,8 @@ const MenuUsageReport = () => {
                 View
               </Text>
             </>
-          </TouchableHighlight>
-          <View style={styles.tableHeaderContainer}>
+          </TouchableHighlight> */}
+          {/* <View style={styles.tableHeaderContainer}>
             <View style={styles.rowContainer}>
               <Text style={styles.rowWrapper}>Date</Text>
             </View>
@@ -221,7 +208,7 @@ const MenuUsageReport = () => {
                 </View>
               </View>
             );
-          })}
+          })} */}
           <ScrollView horizontal={true}>
             <View>
               <View style={styles.tableHeaderContainer1}>
@@ -235,9 +222,6 @@ const MenuUsageReport = () => {
                   <Text style={styles.rowWrapper1}>Name</Text>
                 </View>
                 <View style={styles.rowContainer2}>
-                  <Text style={styles.rowWrapper1}>Emp Code</Text>
-                </View>
-                <View style={styles.rowContainer2}>
                   <Text style={styles.rowWrapper1}>Item</Text>
                 </View>
                 <View style={styles.rowContainer3}>
@@ -245,7 +229,7 @@ const MenuUsageReport = () => {
                 </View>
               </View>
               <FlatList
-                data={data1}
+                data={filteredTranscations}
                 renderItem={item}
                 // horizontal={true}
               />

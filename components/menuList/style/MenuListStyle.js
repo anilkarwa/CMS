@@ -38,8 +38,9 @@ export default StyleSheet.create({
     paddingVertical: Spacing.SCALE_12,
   },
   categoryWrapperHeader: {
-    fontSize: Size.SIZE_27,
+    fontSize: Size.SIZE_24,
     color: '#196d87',
+    marginBottom: 20,
   },
   categoryBulletStyle: {
     fontSize: Size.SIZE_18,
@@ -47,7 +48,8 @@ export default StyleSheet.create({
     paddingRight: Spacing.SCALE_10,
   },
   categoryListStyle: {
-    fontSize: Size.SIZE_18,
+    fontSize: Size.SIZE_16,
     color: 'black',
+    paddingHorizontal: 5,
   },
 });

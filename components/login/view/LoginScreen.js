@@ -4,29 +4,35 @@ import {useState} from 'react';
 import {Text, View, Alert} from 'react-native';
 import {Button} from 'react-native-paper';
 import {TextInput} from '../../../UI';
-import userData from '../../../utility/responsiveUi/constants';
 import styles from '../style/LoginStyle';
+import {userLogin} from '../../../Services';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const btnHandler = () => {
-    if (userName === '' || password === '') {
-      Alert('Please fill the required fields');
-      return;
-    }
-    if (userName) {
-      userData.map(item => {
-        if (item.username === userName && item.password === password) {
-          setPassword('');
-          setUserName('');
-          navigation.push('Home');
-          return;
-        }
-      });
+  const btnHandler = async () => {
+    try {
+      if (userName === '' || password === '') {
+        Alert.alert('Error', 'Please fill the required fields.');
+        return;
+      }
+      let response = await userLogin(userName, password);
+      if (response.data && response.data === 'Success') {
+        await AsyncStorage.setItem('@LOGGEDIN', 'true');
+        setPassword('');
+        setUserName('');
+        navigation.push('Home');
+        return;
+      } else {
+        Alert.alert('Error', 'Invalid login details.');
+      }
+    } catch (ex) {
+      Alert.alert('Error', 'Invalid login details.');
     }
   };
+
   return (
     <View style={styles.container}>
       {/* <View style={styles.header}>

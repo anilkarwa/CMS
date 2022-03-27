@@ -20,7 +20,6 @@ export default StyleSheet.create({
   },
   body: {
     paddingVertical: Spacing.SCALE_10,
-    marginTop: Spacing.SCALE_30,
   },
   bodyHeaderText: {
     fontSize: Typography.FONT_SIZE_30,
@@ -52,12 +51,13 @@ export default StyleSheet.create({
     color: 'black',
     fontSize: Typography.FONT_SIZE_18,
     fontWeight: '500',
+    marginBottom: 15,
   },
   txt1: {
     color: '#196d87',
-    fontSize: Typography.FONT_SIZE_18,
+    fontSize: Typography.FONT_SIZE_14,
     fontWeight: '500',
-    marginLeft: Spacing.SCALE_100,
+    marginLeft: Spacing.SCALE_20,
   },
   inputWrapper: {
     paddingHorizontal: Spacing.SCALE_25,
@@ -65,6 +65,7 @@ export default StyleSheet.create({
   detailsStyle: {
     paddingHorizontal: Spacing.SCALE_25,
     marginTop: Spacing.SCALE_40,
+    justifyContent: 'center',
   },
   touchableStyle: {
     height: Size.SIZE_40,
