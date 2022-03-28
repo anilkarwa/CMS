@@ -3,7 +3,11 @@ import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import {TextInput} from '../../../UI';
 import {Spacing} from '../../../utility/responsiveUi';
 import styles from '../style/CanteenUsagesStyle';
-import {getEmpByCardNo, addNewTranscation} from '../../../Realm/dataSync';
+import {
+  getEmpByCardNo,
+  addNewTranscation,
+  getLocalTranscations,
+} from '../../../Realm/dataSync';
 import debounce from 'lodash.debounce';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -13,12 +17,14 @@ const CanteenUsagesScreen = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [orderCount, setOrderCount] = useState(0);
   const [selectedMenu, setSelectedMenu] = useState([]);
+  const [menuText, setMenuText] = useState('');
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       showSelectedMenu();
       setOrderCount(0);
       setSearch('');
+      setEmp({});
     });
     return unsubscribe;
   }, [navigation]);
@@ -39,11 +45,6 @@ const CanteenUsagesScreen = ({navigation}) => {
       if (empp && !empp.status) {
         Alert.alert('Error', 'Employee not found');
       } else {
-        if (emp?.empId === empp.data[0].empId) {
-          setOrderCount(orderCount + 1);
-        } else {
-          setOrderCount(1);
-        }
         setEmp(empp.data[0]);
         for (let menu of selectedMenu) {
           let trns = {
@@ -52,11 +53,20 @@ const CanteenUsagesScreen = ({navigation}) => {
             empCardNo: empp.data[0].empCardNo,
             menuId: menu.menuId,
             itemName: menu.menuName,
+            scanDateTime: new Date(),
           };
           await addNewTranscation(trns);
           setSearch('');
           setSearchText('');
         }
+        let trnsList = await getLocalTranscations();
+        let count = 0;
+        for (let menuu of selectedMenu) {
+          count += trnsList.data?.filter(
+            e => e.empId === empp.data[0].empId && e.menuId === menuu.menuId,
+          ).length;
+        }
+        setOrderCount(count);
       }
     } catch (ex) {
       console.log('ex=>', ex);
@@ -76,6 +86,7 @@ const CanteenUsagesScreen = ({navigation}) => {
           menu += ', ';
         }
       }
+      setMenuText(menu);
       Alert.alert('Menu', menu);
     } else {
       setSelectedMenu([]);
@@ -133,19 +144,16 @@ const CanteenUsagesScreen = ({navigation}) => {
             <Text style={styles.txt1}></Text>
           </View>
         </View>
-        <TouchableOpacity
-          style={styles.touchableStyle}
-          // onPress={()=>navigation.navigate('MenuUsageReport')}
-        >
-          <Text style={styles.txt2}>{orderCount}</Text>
-        </TouchableOpacity>
-        {/* <Text style={styles.txt3}>Total:</Text>
+        <View style={styles.touchableStyle}>
+          <Text style={[styles.txt2, {fontSize: 8}]}>{menuText}</Text>
+        </View>
+        <Text style={styles.txt3}>Total:</Text>
         <TouchableOpacity
           style={styles.touchableStyle}
           // onPress={()=>navigation.navigate('MenuListScreen')}
         >
-          <Text style={styles.txt2}>76</Text>
-        </TouchableOpacity> */}
+          <Text style={styles.txt2}>{orderCount}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

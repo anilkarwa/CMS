@@ -36,18 +36,18 @@ const MenuListScreen = ({navigation}) => {
         setMenuList([]);
         Alert.alert('Error', 'Menu List not found');
       } else {
-        let notFound = false;
+        let found = 0;
         let menuItems = menu.data.map(e => {
           let index = selectedMenuList?.findIndex(m => m.menuId === e.menuId);
-          if (index < 0) {
-            notFound = true;
+          if (index > -1) {
+            found += 1;
           }
           return {
             ...e,
             checked: index > -1,
           };
         });
-        if (notFound) {
+        if (found !== selectedMenuList?.length) {
           await AsyncStorage.removeItem('@SELECTEDMENULIST');
           setMenuList([...menu.data]);
         } else {

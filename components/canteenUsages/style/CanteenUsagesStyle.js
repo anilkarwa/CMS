@@ -79,7 +79,7 @@ export default StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: '600',
-    fontSize: Typography.FONT_SIZE_25,
+    fontSize: Typography.FONT_SIZE_24,
   },
   txt3: {
     color: 'black',
