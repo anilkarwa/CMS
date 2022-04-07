@@ -59,6 +59,7 @@ const MenuUsageReport = ({navigation}) => {
           let trn = {
             date: moment(localTrn.scanDateTime).format('DD/MM/YYYY'),
             cardId: localTrn.empCardNo,
+            code: localTrn.empCode,
             name: localTrn.empName,
             item: localTrn.itemName,
             quality: 1,
@@ -90,6 +91,9 @@ const MenuUsageReport = ({navigation}) => {
           <Text style={styles.rowDataText}>{item.cardId}</Text>
         </View>
         <View style={styles.rowDataContent2}>
+          <Text style={styles.rowDataText}>{item.code}</Text>
+        </View>
+        <View style={styles.rowDataContent2}>
           <Text style={styles.rowDataText}>{item.name}</Text>
         </View>
         <View style={styles.rowDataContent2}>
@@ -117,9 +121,9 @@ const MenuUsageReport = ({navigation}) => {
                 <Text
                   style={{
                     alignSelf: 'center',
-                  }}>{`${date?.getDate()}/${date?.getMonth(
-                  'mm',
-                )}/${date?.getFullYear('yyyy')}`}</Text>
+                  }}>
+                  {moment(date).format('DD/MM/YYYY')}
+                </Text>
                 <Image
                   source={require('../../../utility/responsiveUi/assets/images/calender.png')}
                   style={styles.img}
@@ -217,6 +221,9 @@ const MenuUsageReport = ({navigation}) => {
                 </View>
                 <View style={styles.rowContainer2}>
                   <Text style={styles.rowWrapper1}>Card ID</Text>
+                </View>
+                <View style={styles.rowContainer2}>
+                  <Text style={styles.rowWrapper1}>Emp Code</Text>
                 </View>
                 <View style={styles.rowContainer2}>
                   <Text style={styles.rowWrapper1}>Name</Text>

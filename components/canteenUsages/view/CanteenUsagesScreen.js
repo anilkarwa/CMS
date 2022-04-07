@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View, Alert} from 'react-native';
+import {Text, TouchableOpacity, View, Alert, Image} from 'react-native';
 import {TextInput} from '../../../UI';
 import {Spacing} from '../../../utility/responsiveUi';
 import styles from '../style/CanteenUsagesStyle';
@@ -18,6 +18,7 @@ const CanteenUsagesScreen = ({navigation}) => {
   const [orderCount, setOrderCount] = useState(0);
   const [selectedMenu, setSelectedMenu] = useState([]);
   const [menuText, setMenuText] = useState('');
+  const empCodeRef = React.useRef(null);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -25,6 +26,9 @@ const CanteenUsagesScreen = ({navigation}) => {
       setOrderCount(0);
       setSearch('');
       setEmp({});
+      setTimeout(() => {
+        empCodeRef?.current?.focus();
+      }, 1000);
     });
     return unsubscribe;
   }, [navigation]);
@@ -39,7 +43,7 @@ const CanteenUsagesScreen = ({navigation}) => {
     try {
       let empp = await getEmpByCardNo(val);
       if (!selectedMenu.length) {
-        Alert.alert('Errir', 'Please select menu in menu settings');
+        Alert.alert('Error', 'Please select menu in menu settings');
         return false;
       }
       if (empp && !empp.status) {
@@ -51,6 +55,7 @@ const CanteenUsagesScreen = ({navigation}) => {
             empId: empp.data[0].empId,
             empName: empp.data[0].empName,
             empCardNo: empp.data[0].empCardNo,
+            empCode: empp.data[0].empCode,
             menuId: menu.menuId,
             itemName: menu.menuName,
             scanDateTime: new Date(),
@@ -58,6 +63,9 @@ const CanteenUsagesScreen = ({navigation}) => {
           await addNewTranscation(trns);
           setSearch('');
           setSearchText('');
+          setTimeout(() => {
+            empCodeRef?.current?.focus();
+          }, 500);
         }
         let trnsList = await getLocalTranscations();
         let count = 0;
@@ -90,7 +98,7 @@ const CanteenUsagesScreen = ({navigation}) => {
       Alert.alert('Menu', menu);
     } else {
       setSelectedMenu([]);
-      Alert.alert('Errir', 'Please select menu in menu settings');
+      Alert.alert('Error', 'Please select menu in menu settings');
     }
   };
 
@@ -107,9 +115,9 @@ const CanteenUsagesScreen = ({navigation}) => {
         </View>
         <View style={styles.inputWrapper}>
           <TextInput
+            ref={empCodeRef}
             placeholder="Please enter Employee Card"
             label="Employee"
-            outlineColor="#87b0c0"
             autoFocus={true}
             value={search}
             onChangeText={text => {
@@ -141,7 +149,12 @@ const CanteenUsagesScreen = ({navigation}) => {
           </View>
           <View style={{flexDirection: 'row', paddingBottom: Spacing.SCALE_20}}>
             <Text style={styles.txt}>Photo:</Text>
-            <Text style={styles.txt1}></Text>
+            <Image
+              source={{
+                uri: `data:image/jpeg;base64,${emp.empImage}`,
+              }}
+              style={{height: 100, width: 100}}
+            />
           </View>
         </View>
         <View style={styles.touchableStyle}>

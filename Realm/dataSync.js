@@ -36,6 +36,7 @@ export const getAllEmployees = () => {
               empCode: emp.empCode,
               empName: emp.empName,
               empCardNo: emp.empCardNo,
+              empImage: emp.image ? emp.image : '',
             };
             realm.create('Employee', finalObj);
           }
@@ -193,7 +194,7 @@ export const syncPendingTranscations = () => {
         let obj = {
           empId: trn.empId,
           menuId: trn.menuId,
-          scanDateTime: trn.scanDateTime,
+          scanDateTime: moment(trn.scanDateTime).format('YYYY-MM-DD HH:mm:ss'),
         };
         payload.push(obj);
       }

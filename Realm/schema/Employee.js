@@ -9,6 +9,7 @@ class EmployeeSchema extends Realm.Object {
       empCode: 'string?',
       empName: 'string?',
       empCardNo: 'string?',
+      empImage: 'string?',
     },
     primaryKey: '_id',
   };
