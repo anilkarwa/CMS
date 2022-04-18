@@ -7,16 +7,18 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   header: {
-    height: Size.SIZE_60,
+    height: Size.SIZE_50,
     backgroundColor: '#196d87',
-    justifyContent: 'center',
+    // justifyContent: 'space-between',
+    flexDirection:'row'
   },
   headerText: {
-    textAlign: 'center',
     color: 'white',
     fontSize: Typography.FONT_SIZE_20,
     fontFamily: 'Zen Kurenaido, sans-serif',
     fontWeight: '500',
+    alignSelf:'center',
+    marginLeft:Spacing.SCALE_10
   },
   syncBtn: {
     alignSelf: 'flex-end',

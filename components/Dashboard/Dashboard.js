@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
 import styles from './styles';
-import {Button} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
+import { Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Entypo'
 import SyncData from '../SyncData';
+import CMSHeader from '../../UI/CMSHeader';
 
 const Dashboard = props => {
   const navigation = useNavigation();
@@ -12,8 +14,12 @@ const Dashboard = props => {
   return (
     <View style={styles.container}>
       {/* <View style={styles.header}>
+        <Icon name={'menu'} size={26} color={'#5D6273'} style={{alignSelf:'center',paddingLeft:10}} 
+        onPress={()=>navigation.toggleDrawer()}
+        />
         <Text style={styles.headerText}>CMS</Text>
       </View> */}
+      <CMSHeader header={'Home'}/>
       <View style={styles.syncContainer}>
         <Button
           icon={'sync'}

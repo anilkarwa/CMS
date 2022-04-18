@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {Text, TouchableOpacity, View, Alert, Image} from 'react-native';
-import {TextInput} from '../../../UI';
-import {Spacing} from '../../../utility/responsiveUi';
+import React, { useState } from 'react';
+import { Text, TouchableOpacity, View, Alert, Image } from 'react-native';
+import { TextInput } from '../../../UI';
+import { Spacing } from '../../../utility/responsiveUi';
 import styles from '../style/CanteenUsagesStyle';
 import {
   getEmpByCardNo,
@@ -10,8 +10,9 @@ import {
 } from '../../../Realm/dataSync';
 import debounce from 'lodash.debounce';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CMSHeader from '../../../UI/CMSHeader';
 
-const CanteenUsagesScreen = ({navigation}) => {
+const CanteenUsagesScreen = ({ navigation }) => {
   const [emp, setEmp] = useState({});
   const [search, setSearch] = useState('');
   const [searchText, setSearchText] = useState('');
@@ -106,9 +107,7 @@ const CanteenUsagesScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Text style={styles.headerText}>Company Name</Text>
-      </View> */}
+      <CMSHeader header={'Canteen Usage'} />
       <View style={styles.body}>
         <View style={styles.txtWrapper}>
           <Text style={styles.txt}>Scan / Tap / Employee Card</Text>
@@ -147,23 +146,23 @@ const CanteenUsagesScreen = ({navigation}) => {
               Name: <Text style={styles.txt1}>{emp.empName}</Text>
             </Text>
           </View>
-          <View style={{flexDirection: 'row', paddingBottom: Spacing.SCALE_20}}>
+          <View style={{ flexDirection: 'row', paddingBottom: Spacing.SCALE_20 }}>
             <Text style={styles.txt}>Photo:</Text>
             <Image
               source={{
                 uri: `data:image/jpeg;base64,${emp.empImage}`,
               }}
-              style={{height: 100, width: 100}}
+              style={{ height: 100, width: 100 }}
             />
           </View>
         </View>
         <View style={styles.touchableStyle}>
-          <Text style={[styles.txt2, {fontSize: 8}]}>{menuText}</Text>
+          <Text style={[styles.txt2, { fontSize: 8 }]}>{menuText}</Text>
         </View>
         <Text style={styles.txt3}>Total:</Text>
         <TouchableOpacity
           style={styles.touchableStyle}
-          // onPress={()=>navigation.navigate('MenuListScreen')}
+        // onPress={()=>navigation.navigate('MenuListScreen')}
         >
           <Text style={styles.txt2}>{orderCount}</Text>
         </TouchableOpacity>

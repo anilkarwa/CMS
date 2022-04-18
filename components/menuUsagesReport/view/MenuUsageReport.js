@@ -13,6 +13,7 @@ import styles from '../style/MenuUsageReportStyle';
 import {getLocalTranscations} from '../../../Realm/dataSync';
 import moment from 'moment';
 import {sortBy} from 'lodash';
+import CMSHeader from '../../../UI/CMSHeader';
 
 const MenuUsageReport = ({navigation}) => {
   const [date, setDate] = useState(new Date());
@@ -107,9 +108,7 @@ const MenuUsageReport = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <Text style={styles.headerText}>Company Name</Text>
-      </View> */}
+      <CMSHeader header={'Menu Usage Report'}/>
       <ScrollView>
         <View style={styles.body}>
           <View style={styles.calendarTxtContainer}>

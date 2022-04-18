@@ -4,6 +4,7 @@ import CheckBox from 'react-native-check-box';
 import styles from '../style/MenuListStyle';
 import {getMenuList} from '../../../Realm/dataSync';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CMSHeader from '../../../UI/CMSHeader';
 
 const MenuListScreen = ({navigation}) => {
   const [menuList, setMenuList] = useState([]);
@@ -62,6 +63,7 @@ const MenuListScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <CMSHeader header={'Menu Settings'}/>
       <View style={styles.categoryWrapper}>
         <Text style={styles.categoryWrapperHeader}>Menu</Text>
         <FlatList
